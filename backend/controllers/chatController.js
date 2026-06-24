@@ -26,7 +26,7 @@ router.post('/create-new-chat', authMiddleware, async (req, res) => {
 router.get('/get-all-chats', authMiddleware, async (req, res) => {
   try {
     const allChats = await Chat.find({
-      members: { $in: [req.body.userId] }   // ✅ array বানানো হলো
+      members: { $in: [req.body.userId] }  
     });
 
     res.status(200).send({

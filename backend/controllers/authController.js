@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const user = require('express').Router();
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -34,11 +33,12 @@ router.post('/signup', async(req, res) => {
         });
 
     } catch (error){
-        res.status(400).send({
+        console.error(error);
+        res.status(500).send({
             message: error.message,
             success: false
         })
-    
+
     }
 })
 
@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({
             email: req.body.email
-        });
+        }).select('+password');
 
         if (!user) {
             return res.status(400).send({
@@ -81,7 +81,8 @@ router.post('/login', async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).send({
+        console.error(error);
+        return res.status(500).send({
             message: error.message,
             success: false
         });
